@@ -25,7 +25,7 @@ for item in root.findall('.//prec'):
 
     # 구글 제미나이 무료 임베딩 모델 사용 (768차원 변환)
     emb_res = genai.embed_content(
-        model="models/embedding-001",
+        model="models/text-embedding-004",
         content=content
     )
     embedding = emb_res['embedding']
