@@ -5,11 +5,11 @@ from supabase import create_client
 
 # ⚠️ 본인의 정보로 정확히 변경하세요
 LAW_API_KEY = "kang1980" 
-GEMINI_KEY = "이제안씀"
+GEMINI_API_KEY = "이제안씀"
 SUPABASE_URL = "https://oslbpdnpnsdcvgmvhlmh.supabase.co"
 SUPABASE_KEY = "이제안씀"
 
-genai.configure(api_key=GEMINI_KEY)
+genai.configure(api_key=GEMINI_API_KEY)
 supabase = create_client(SUPABASE_URL, SUPABASE_KEY)
 
 # 예시: 국가법령 API에서 '조세특례제한법' 관련 판례 가져오기
