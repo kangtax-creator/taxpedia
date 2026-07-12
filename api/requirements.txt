@@ -1,0 +1,5 @@
+fastapi==0.110.0
+pydantic==2.6.4
+google-generativeai==0.4.1
+supabase==2.3.7
+requests==2.31.0
