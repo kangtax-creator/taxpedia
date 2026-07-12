@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>세법해석 AI 검색기</title>
+    <style>
+        body { max-width: 700px; margin: 50px auto; padding: 20px; font-family: sans-serif; }
+        h2 { color: #1e3a8a; border-bottom: 2px solid #e5e7eb; padding-bottom: 10px; }
+        p { color: #6b7280; font-size: 14px; }
+        textarea { width: 100%; min-height: 140px; padding: 12px; border: 1px solid #d1d5db; border-radius: 6px; margin-top: 10px; font-size: 15px; line-height: 1.5; box-sizing: border-box; }
+        button { width: 100%; padding: 12px; background-color: #1e3a8a; color: white; border: none; border-radius: 6px; font-size: 16px; margin-top: 10px; cursor: pointer; }
+        button:disabled { background-color: #9ca3af; cursor: not-allowed; }
+        #result { margin-top: 25px; padding: 20px; background-color: #f9fafb; border-radius: 8px; border: 1px solid #e5e7eb; white-space: pre-wrap; line-height: 1.6; display: none; }
+    </style>
+</head>
+<body>
+    <h2>세법해석 AI 검색기 (Gemini Free)</h2>
+    <p>궁금하신 세무 상황을 자세하게 적어주세요. 무료 AI가 판례를 분석합니다.</p>
+    <textarea id="userInput" placeholder="예시: 외국인 투자기업이 설립 후 공장 부지를 매입할 때 취득세 감면 혜택을 받을 수 있는 요건이 어떻게 되나요?"></textarea>
+    <button id="searchBtn" onclick="handleSearch()">세법 해석 요청하기</button>
+    <div id="result"></div>
+
+    <script>
+        async function handleSearch() {
+            const text = document.getElementById('userInput').value;
+            if (!text) return;
+
+            const btn = document.getElementById('searchBtn');
+            const resultDiv = document.getElementById('result');
+
+            // 로딩 상태 표시
+            btn.disabled = true;
+            btn.innerText = 'AI가 관련 판례 및 세법 분석 중...';
+            resultDiv.style.display = 'none';
+
+            try {
+                // 파이썬 백엔드로 데이터 전송
+                const res = await fetch('/api/search', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ user_situation: text })
+                });
+                
+                const data = await res.json();
+                
+                // 결과 출력
+                resultDiv.innerHTML = '<strong>📋 AI 세무 오피니언 결과:</strong><br/><br/>' + data.answer;
+                resultDiv.style.display = 'block';
+            } catch (e) {
+                resultDiv.innerHTML = '서버 통신 중 오류가 발생했습니다.';
+                resultDiv.style.display = 'block';
+            }
+
+            // 버튼 원상복구
+            btn.disabled = false;
+            btn.innerText = '세법 해석 요청하기';
+        }
+    </script>
+</body>
+</html>
