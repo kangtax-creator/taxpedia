@@ -18,7 +18,7 @@ async def search_tax_law(request: SearchRequest):
     try:
         # 1. 사용자의 질문을 구글 벡터(768차원)로 변환
         emb_res = genai.embed_content(
-            model="models/text-embedding-004",
+            model="models/embedding-001",
             content=request.user_situation
         )
         emb = emb_res['embedding']
